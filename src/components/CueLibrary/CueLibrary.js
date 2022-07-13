@@ -37,45 +37,50 @@ function CueLibrary() {
   }, []);
 
   const handleCurrentTrack = (track) => {
-    // If currentTrack is empty, set currentTrack and set isPlaying to true - Maybe don't need this rule?
-
-    // If current track IS NOT track, set currentTrack and set isPlaying to true
+    // // If currentTrack is empty, set currentTrack and set isPlaying to true - Maybe don't need this rule?
+    // // If current track IS NOT track, set currentTrack and set isPlaying to true
     if (currentTrack.title !== track.title) {
       setCurrentTrack(track);
       setIsPlaying(true);
       console.log(isPlaying);
     }
-
-    // If current track IS track and isPlaying is true, set isPlaying to false
-    // If current track IS track and isPlaying is false, set isPlaying to true
-    if (currentTrack.title === track.title) {
-      setIsPlaying(!isPlaying);
-      console.log(isPlaying);
-    }
-
-    // console.log(currentTrack.title);
-    // setCurrentTrack(track);
-    // if (currentTrack.title.length < 1) {
-    //   setCurrentTrack(track);
+    // // If current track IS track and isPlaying is true, set isPlaying to false
+    // // If current track IS track and isPlaying is false, set isPlaying to true
+    // if (currentTrack.title === track.title) {
+    //   setIsPlaying(!isPlaying);
+    //   console.log(isPlaying);
     // }
   };
 
   // PASS THIS TO WAVEFORM, SO WAVEFORM CAN CALL AND UPDATE IT - CUELIBRARY MUST BE THE SOURCE OF ALL KNOWLEDGE WHEN IT COMES TO THE PLAYING STATE
   const handleIsPlaying = (bool) => {
     setIsPlaying(bool);
+    // console.log('Is playing? ', bool);
   };
 
   const trackList = tracks.map((track) => {
     return (
       <li key={track.title}>
-        <Track trackInfo={track} handleCurrentTrack={handleCurrentTrack} />
+        <Track
+          trackInfo={track}
+          handleCurrentTrack={handleCurrentTrack}
+          currentTrack={currentTrack}
+          isPlaying={isPlaying}
+          handleIsPlaying={handleIsPlaying}
+        />
       </li>
     );
   });
 
   let waveform;
   if (currentTrack.audio) {
-    waveform = <Waveform trackInfo={currentTrack} isPlaying={isPlaying} />;
+    waveform = (
+      <Waveform
+        trackInfo={currentTrack}
+        isPlaying={isPlaying}
+        handleIsPlaying={handleIsPlaying}
+      />
+    );
   } else {
     waveform = <div></div>;
   }

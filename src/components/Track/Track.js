@@ -1,17 +1,28 @@
 import React from 'react';
 
-function Track({ trackInfo, handleCurrentTrack }) {
+function Track({
+  trackInfo,
+  handleCurrentTrack,
+  currentTrack,
+  isPlaying,
+  handleIsPlaying,
+}) {
+  const handlePlayPauseButton = () => {
+    handleCurrentTrack(trackInfo);
+    if (trackInfo.title === currentTrack.title) {
+      handleIsPlaying(!isPlaying);
+    }
+  };
+
   return (
     <div className='Track'>
       <h2>{trackInfo.title}</h2>
       <div>
         <h3>Description</h3>
-        <button
-          onClick={() => {
-            handleCurrentTrack(trackInfo);
-          }}
-        >
-          PLAY/PAUSE
+        <button onClick={handlePlayPauseButton}>
+          {currentTrack.title === trackInfo.title && isPlaying
+            ? 'PAUSE'
+            : 'PLAY'}
         </button>
         <p>{trackInfo.description}</p>
       </div>

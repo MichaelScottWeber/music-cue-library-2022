@@ -18,11 +18,11 @@ const formWaveSurferOptions = (ref) => ({
   partialRender: false,
 });
 
-function Waveform({ trackInfo, isPlaying }) {
+function Waveform({ trackInfo, isPlaying, handleIsPlaying }) {
   const waveformRef = useRef(null);
   const wavesurfer = useRef(null);
   const url = trackInfo.audio;
-  const [playing, setPlaying] = useState(isPlaying);
+  // const [playing, setPlaying] = useState(isPlaying);
 
   useEffect(() => {
     // setPlaying(true);
@@ -34,25 +34,52 @@ function Waveform({ trackInfo, isPlaying }) {
 
     wavesurfer.current.on('ready', () => {
       wavesurfer.current.playPause();
+      // handleIsPlaying(wavesurfer.current.isPlaying());
+    });
+
+    // wavesurfer.current.on('play', () => {
+    //   handleIsPlaying(true);
+    //   console.log('handleIsPlaying fired true, from wavesurfer.on.play');
+    // });
+
+    // wavesurfer.current.on('pause', () => {
+    //   handleIsPlaying(false);
+    //   console.log('handleIsPlaying fired false');
+    // });
+
+    wavesurfer.current.on('finish', () => {
+      handleIsPlaying(false);
     });
 
     return () => wavesurfer.current.destroy();
-  }, [url]);
+    // }, [url]);
+  }, [trackInfo]);
 
+  // THIS NEEDS TO CHECK WHETHER WAVESURFER IS PLAYING, AND THEN UPDATE CUELIBRARY'S STATE
   useEffect(() => {
-    // setPlaying(isPlaying);
-    handlePlayPause();
+    if (isPlaying) {
+      wavesurfer.current.play();
+    }
+
+    if (!isPlaying) {
+      wavesurfer.current.pause();
+    }
+
+    // wavesurfer.current.playPause();
+    // console.log('useEffect of isPlaying made it Play/Pause');
   }, [isPlaying]);
 
   const handlePlayPause = () => {
-    wavesurfer.current.playPause();
-    setPlaying(wavesurfer.current.isPlaying());
+    // wavesurfer.current.playPause();
+    // console.log('handlePlayPause fires');
+    handleIsPlaying(!wavesurfer.current.isPlaying());
+    // console.log('handleIsPlaying fires', wavesurfer.current.isPlaying());
   };
 
   return (
     <div className='Waveform'>
       <p>{trackInfo.title}</p>
-      <button onClick={handlePlayPause}>{playing ? 'Pause' : 'Play'}</button>
+      <button onClick={handlePlayPause}>{isPlaying ? 'Pause' : 'Play'}</button>
       <div id='waveform' ref={waveformRef} />
     </div>
   );
