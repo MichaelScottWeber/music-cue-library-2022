@@ -1,5 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
+import './Waveform.css';
 import WaveSurfer from 'wavesurfer.js';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
+import PauseCircleFilledIcon from '@mui/icons-material/PauseCircleFilled';
+import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PauseIcon from '@mui/icons-material/Pause';
 
 const formWaveSurferOptions = (ref) => ({
   container: ref,
@@ -11,7 +20,7 @@ const formWaveSurferOptions = (ref) => ({
   barRadius: 1,
   barGap: null,
   responsive: true,
-  height: 150,
+  height: 100,
   normalize: true,
   minPxPerSec: 20,
   pixelRatio: 2,
@@ -22,11 +31,8 @@ function Waveform({ trackInfo, isPlaying, handleIsPlaying }) {
   const waveformRef = useRef(null);
   const wavesurfer = useRef(null);
   const url = trackInfo.audio;
-  // const [playing, setPlaying] = useState(isPlaying);
 
   useEffect(() => {
-    // setPlaying(true);
-
     const options = formWaveSurferOptions(waveformRef.current);
     wavesurfer.current = WaveSurfer.create(options);
 
@@ -34,28 +40,15 @@ function Waveform({ trackInfo, isPlaying, handleIsPlaying }) {
 
     wavesurfer.current.on('ready', () => {
       wavesurfer.current.playPause();
-      // handleIsPlaying(wavesurfer.current.isPlaying());
     });
-
-    // wavesurfer.current.on('play', () => {
-    //   handleIsPlaying(true);
-    //   console.log('handleIsPlaying fired true, from wavesurfer.on.play');
-    // });
-
-    // wavesurfer.current.on('pause', () => {
-    //   handleIsPlaying(false);
-    //   console.log('handleIsPlaying fired false');
-    // });
 
     wavesurfer.current.on('finish', () => {
       handleIsPlaying(false);
     });
 
     return () => wavesurfer.current.destroy();
-    // }, [url]);
   }, [trackInfo]);
 
-  // THIS NEEDS TO CHECK WHETHER WAVESURFER IS PLAYING, AND THEN UPDATE CUELIBRARY'S STATE
   useEffect(() => {
     if (isPlaying) {
       wavesurfer.current.play();
@@ -64,24 +57,33 @@ function Waveform({ trackInfo, isPlaying, handleIsPlaying }) {
     if (!isPlaying) {
       wavesurfer.current.pause();
     }
-
-    // wavesurfer.current.playPause();
-    // console.log('useEffect of isPlaying made it Play/Pause');
   }, [isPlaying]);
 
   const handlePlayPause = () => {
-    // wavesurfer.current.playPause();
-    // console.log('handlePlayPause fires');
     handleIsPlaying(!wavesurfer.current.isPlaying());
-    // console.log('handleIsPlaying fires', wavesurfer.current.isPlaying());
   };
 
   return (
-    <div className='Waveform'>
-      <p>{trackInfo.title}</p>
-      <button onClick={handlePlayPause}>{isPlaying ? 'Pause' : 'Play'}</button>
+    <Paper elevation={5} className='Waveform'>
+      <Typography variant='h4' component='h2'>
+        {trackInfo.title}
+      </Typography>
+      <Button
+        sx={{ borderRadius: '50px', width: '62px', height: '62px' }}
+        disableElevation
+        variant='contained'
+        size='small'
+        aria-label='play/pause'
+        onClick={handlePlayPause}
+      >
+        {isPlaying ? (
+          <PauseIcon fontSize='large' />
+        ) : (
+          <PlayArrowIcon fontSize='large' />
+        )}
+      </Button>
       <div id='waveform' ref={waveformRef} />
-    </div>
+    </Paper>
   );
 }
 

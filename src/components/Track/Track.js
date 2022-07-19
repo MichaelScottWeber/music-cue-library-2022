@@ -1,4 +1,14 @@
 import React from 'react';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import IconButton from '@mui/material/IconButton';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PauseIcon from '@mui/icons-material/Pause';
 
 function Track({
   trackInfo,
@@ -15,30 +25,53 @@ function Track({
   };
 
   return (
-    <div className='Track'>
-      <h2>{trackInfo.title}</h2>
-      <div>
-        <h3>Description</h3>
-        <button onClick={handlePlayPauseButton}>
-          {currentTrack.title === trackInfo.title && isPlaying
-            ? 'PAUSE'
-            : 'PLAY'}
-        </button>
-        <p>{trackInfo.description}</p>
-      </div>
-      <div>
-        <h3>Moods</h3>
-        <p>{trackInfo.mood.join(', ')}</p>
-      </div>
-      <div>
-        <h3>Genre</h3>
-        <p>{trackInfo.genre.join(', ')}</p>
-      </div>
-      <div>
-        <h3>Instrumentation</h3>
-        <p>{trackInfo.instrumentation.join(', ')}</p>
-      </div>
-    </div>
+    <Paper elevation={2} className='Track'>
+      <Box padding={2}>
+        <Typography variant='h6' component='h3'>
+          {trackInfo.title}
+        </Typography>
+        <IconButton
+          aria-label='play/pause'
+          onClick={handlePlayPauseButton}
+          size='small'
+        >
+          {currentTrack.title === trackInfo.title && isPlaying ? (
+            <PauseIcon fontSize='large' />
+          ) : (
+            <PlayArrowIcon fontSize='large' />
+          )}
+        </IconButton>
+        <Accordion elevation={0}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls='panel-content'
+            id='panel-header'
+          >
+            <Typography variant='body1' component='span'>
+              Details
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography variant='body2' component='p' gutterBottom>
+              <strong>Description: </strong>
+              {trackInfo.description}
+            </Typography>
+            <Typography variant='body2' component='p' gutterBottom>
+              <strong>Moods: </strong>
+              {trackInfo.mood.join(', ')}
+            </Typography>
+            <Typography variant='body2' component='p' gutterBottom>
+              <strong>Genre: </strong>
+              {trackInfo.genre.join(', ')}
+            </Typography>
+            <Typography variant='body2' component='p'>
+              <strong>Instrumentation: </strong>
+              {trackInfo.instrumentation.join(', ')}
+            </Typography>
+          </AccordionDetails>
+        </Accordion>
+      </Box>
+    </Paper>
   );
 }
 
