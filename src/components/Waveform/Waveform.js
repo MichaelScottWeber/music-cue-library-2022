@@ -28,6 +28,7 @@ const formWaveSurferOptions = (ref) => ({
 });
 
 function Waveform({ trackInfo, isPlaying, handleIsPlaying }) {
+  const [currentTime, setCurrentTime] = useState();
   const waveformRef = useRef(null);
   const wavesurfer = useRef(null);
   const url = trackInfo.audio;
@@ -40,6 +41,11 @@ function Waveform({ trackInfo, isPlaying, handleIsPlaying }) {
 
     wavesurfer.current.on('ready', () => {
       wavesurfer.current.playPause();
+    });
+
+    // getCurrentTime()
+    wavesurfer.current.on('audioprocess', () => {
+      setCurrentTime(wavesurfer.current.getCurrentTime());
     });
 
     wavesurfer.current.on('finish', () => {
@@ -63,6 +69,18 @@ function Waveform({ trackInfo, isPlaying, handleIsPlaying }) {
     handleIsPlaying(!wavesurfer.current.isPlaying());
   };
 
+  const formatTime = (time) => {
+    if (time) {
+      const min = Math.floor(time / 60).toString();
+      const sec = Math.floor(time % 60)
+        .toString()
+        .padStart(2, '0');
+
+      return `${min}:${sec}`;
+      // return time.toFixed(0);
+    }
+  };
+
   return (
     <Paper elevation={5} className='Waveform'>
       <Typography variant='h4' component='h2'>
@@ -82,6 +100,7 @@ function Waveform({ trackInfo, isPlaying, handleIsPlaying }) {
           <PlayArrowIcon fontSize='large' />
         )}
       </Button>
+      <span>{formatTime(currentTime)}</span>
       <div id='waveform' ref={waveformRef} />
     </Paper>
   );

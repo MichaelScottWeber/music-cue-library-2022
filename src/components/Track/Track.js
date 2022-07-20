@@ -27,9 +27,6 @@ function Track({
   return (
     <Paper elevation={2} className='Track'>
       <Box padding={2}>
-        <Typography variant='h6' component='h3'>
-          {trackInfo.title}
-        </Typography>
         <IconButton
           aria-label='play/pause'
           onClick={handlePlayPauseButton}
@@ -41,6 +38,12 @@ function Track({
             <PlayArrowIcon fontSize='large' />
           )}
         </IconButton>
+        <Typography variant='h6' component='h3'>
+          {trackInfo.title}
+        </Typography>
+        <Typography variant='body1' component='span'>
+          {trackInfo.duration}
+        </Typography>
         <Accordion elevation={0}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}

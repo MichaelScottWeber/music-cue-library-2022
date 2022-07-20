@@ -23,6 +23,7 @@ function CueLibrary() {
     genre: [],
     instrumentation: [],
     mood: [],
+    duration: '',
   });
   const [isPlaying, setIsPlaying] = useState();
 
@@ -46,7 +47,7 @@ function CueLibrary() {
     if (currentTrack.title !== track.title) {
       setCurrentTrack(track);
       setIsPlaying(true);
-      console.log(isPlaying);
+      // console.log(isPlaying);
     }
   };
 
