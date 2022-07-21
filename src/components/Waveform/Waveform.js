@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './Waveform.css';
 import WaveSurfer from 'wavesurfer.js';
+import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
@@ -20,7 +22,7 @@ const formWaveSurferOptions = (ref) => ({
   barRadius: 1,
   barGap: null,
   responsive: true,
-  height: 100,
+  height: 62,
   normalize: true,
   minPxPerSec: 20,
   pixelRatio: 2,
@@ -29,6 +31,7 @@ const formWaveSurferOptions = (ref) => ({
 
 function Waveform({ trackInfo, isPlaying, handleIsPlaying }) {
   const [currentTime, setCurrentTime] = useState();
+  const [waveformReady, setWaveformReady] = useState(false);
   const waveformRef = useRef(null);
   const wavesurfer = useRef(null);
   const url = trackInfo.audio;
@@ -41,6 +44,7 @@ function Waveform({ trackInfo, isPlaying, handleIsPlaying }) {
 
     wavesurfer.current.on('ready', () => {
       wavesurfer.current.playPause();
+      setWaveformReady(true);
     });
 
     // getCurrentTime()
@@ -83,25 +87,45 @@ function Waveform({ trackInfo, isPlaying, handleIsPlaying }) {
 
   return (
     <Paper elevation={5} className='Waveform'>
-      <Typography variant='h4' component='h2'>
-        {trackInfo.title}
-      </Typography>
-      <Button
-        sx={{ borderRadius: '50px', width: '62px', height: '62px' }}
-        disableElevation
-        variant='contained'
-        size='small'
-        aria-label='play/pause'
-        onClick={handlePlayPause}
-      >
-        {isPlaying ? (
-          <PauseIcon fontSize='large' />
-        ) : (
-          <PlayArrowIcon fontSize='large' />
-        )}
-      </Button>
-      <span>{formatTime(currentTime)}</span>
-      <div id='waveform' ref={waveformRef} />
+      <Box padding={2}>
+        <Typography variant='h6' component='h2' gutterBottom>
+          {trackInfo.title}
+        </Typography>
+        <Stack direction='row' alignItems='center' spacing={0}>
+          <Button
+            sx={{
+              borderRadius: '50px',
+              width: '62px',
+              height: '62px',
+              marginRight: '24px',
+            }}
+            disableElevation
+            variant='contained'
+            size='small'
+            aria-label='play/pause'
+            onClick={handlePlayPause}
+          >
+            {isPlaying ? (
+              <PauseIcon fontSize='large' />
+            ) : (
+              <PlayArrowIcon fontSize='large' />
+            )}
+          </Button>
+          <Typography
+            variant='body2'
+            component='span'
+            sx={{ marginRight: '10px' }}
+          >
+            {formatTime(currentTime)}
+          </Typography>
+          <div style={{ width: '100%' }}>
+            <div id='waveform' ref={waveformRef} />
+          </div>
+          <Typography variant='body2' component='span'>
+            {trackInfo.duration}
+          </Typography>
+        </Stack>
+      </Box>
     </Paper>
   );
 }

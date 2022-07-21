@@ -1,4 +1,5 @@
 import React from 'react';
+import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -25,35 +26,47 @@ function Track({
   };
 
   return (
-    <Paper elevation={2} className='Track'>
-      <Box padding={2}>
-        <IconButton
-          aria-label='play/pause'
-          onClick={handlePlayPauseButton}
-          size='small'
-        >
-          {currentTrack.title === trackInfo.title && isPlaying ? (
-            <PauseIcon fontSize='large' />
-          ) : (
-            <PlayArrowIcon fontSize='large' />
-          )}
-        </IconButton>
-        <Typography variant='h6' component='h3'>
-          {trackInfo.title}
-        </Typography>
-        <Typography variant='body1' component='span'>
-          {trackInfo.duration}
-        </Typography>
+    <Paper sx={{ borderRadius: '10px' }} elevation={2} className='Track'>
+      <Box paddingX={1} paddingY={2}>
         <Accordion elevation={0}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls='panel-content'
-            id='panel-header'
+          <Stack
+            direction='row'
+            justifyContent='space-between'
+            alignItems='center'
+            spacing={2}
           >
-            <Typography variant='body1' component='span'>
-              Details
-            </Typography>
-          </AccordionSummary>
+            <Stack direction='row' alignItems='center' spacing={2}>
+              <IconButton
+                aria-label='play/pause'
+                onClick={handlePlayPauseButton}
+                size='small'
+              >
+                {currentTrack.title === trackInfo.title && isPlaying ? (
+                  <PauseIcon fontSize='large' />
+                ) : (
+                  <PlayArrowIcon fontSize='large' />
+                )}
+              </IconButton>
+              <Typography variant='body1' component='h3'>
+                <strong>{trackInfo.title}</strong>
+              </Typography>
+            </Stack>
+            <Stack direction='row' alignItems='center' spacing={2}>
+              <Typography variant='body1' component='span'>
+                {trackInfo.duration}
+              </Typography>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls='panel-content'
+                id='panel-header'
+              >
+                <Typography variant='body1' component='span'>
+                  Details
+                </Typography>
+              </AccordionSummary>
+            </Stack>
+          </Stack>
+
           <AccordionDetails>
             <Typography variant='body2' component='p' gutterBottom>
               <strong>Description: </strong>
