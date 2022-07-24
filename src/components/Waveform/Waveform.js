@@ -5,12 +5,10 @@ import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
-import PauseCircleFilledIcon from '@mui/icons-material/PauseCircleFilled';
-import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const formWaveSurferOptions = (ref) => ({
   container: ref,
@@ -42,12 +40,13 @@ function Waveform({ trackInfo, isPlaying, handleIsPlaying }) {
 
     wavesurfer.current.load(url);
 
+    setWaveformReady(false);
+
     wavesurfer.current.on('ready', () => {
       wavesurfer.current.playPause();
       setWaveformReady(true);
     });
 
-    // getCurrentTime()
     wavesurfer.current.on('audioprocess', () => {
       setCurrentTime(wavesurfer.current.getCurrentTime());
     });
@@ -81,7 +80,6 @@ function Waveform({ trackInfo, isPlaying, handleIsPlaying }) {
         .padStart(2, '0');
 
       return `${min}:${sec}`;
-      // return time.toFixed(0);
     }
   };
 
@@ -119,6 +117,20 @@ function Waveform({ trackInfo, isPlaying, handleIsPlaying }) {
             {formatTime(currentTime)}
           </Typography>
           <div style={{ width: '100%' }}>
+            {!waveformReady ? (
+              <div className='waveform-loading'>
+                <Typography
+                  variant='body1'
+                  component='span'
+                  sx={{ marginRight: '8px' }}
+                >
+                  Loading Waveform...
+                </Typography>
+                <CircularProgress />
+              </div>
+            ) : (
+              ''
+            )}
             <div id='waveform' ref={waveformRef} />
           </div>
           <Typography variant='body2' component='span'>

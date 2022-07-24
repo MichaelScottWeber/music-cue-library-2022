@@ -6,6 +6,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import Track from '../Track/Track';
 import Waveform from '../Waveform/Waveform';
@@ -47,7 +48,6 @@ function CueLibrary() {
     if (currentTrack.title !== track.title) {
       setCurrentTrack(track);
       setIsPlaying(true);
-      // console.log(isPlaying);
     }
   };
 
@@ -69,18 +69,33 @@ function CueLibrary() {
     );
   });
 
-  let waveform;
-  if (currentTrack.audio) {
-    waveform = (
-      <Waveform
-        trackInfo={currentTrack}
-        isPlaying={isPlaying}
-        handleIsPlaying={handleIsPlaying}
-      />
-    );
-  } else {
-    waveform = <div></div>;
-  }
+  const waveform = () => {
+    if (currentTrack.audio) {
+      return (
+        <Waveform
+          trackInfo={currentTrack}
+          isPlaying={isPlaying}
+          handleIsPlaying={handleIsPlaying}
+        />
+      );
+    } else {
+      return <div></div>;
+    }
+  };
+
+  // let waveform;
+  // if (currentTrack.audio) {
+  //   waveform = (
+  //     <Waveform
+  //       trackInfo={currentTrack}
+  //       isPlaying={isPlaying}
+  //       handleIsPlaying={handleIsPlaying}
+  //       handleWaveformReady={handleWaveformReady}
+  //     />
+  //   );
+  // } else {
+  //   waveform = <div></div>;
+  // }
 
   return (
     <main className='CueLibrary'>
@@ -97,14 +112,19 @@ function CueLibrary() {
           <Grid item xs={12} md={9}>
             {isError && <div>Something went wrong...</div>}
             {isLoading ? (
-              <div>LOADING...</div>
+              <div className='tracks-loading'>
+                <CircularProgress />
+                <Typography variant='body1' component='p'>
+                  Loading tracks...
+                </Typography>
+              </div>
             ) : (
               <Stack spacing={2}>{trackList}</Stack>
             )}
           </Grid>
         </Grid>
       </Container>
-      {waveform}
+      {waveform()}
     </main>
   );
 }
