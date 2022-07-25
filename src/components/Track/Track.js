@@ -15,8 +15,8 @@ function Track({
   trackInfo,
   handleCurrentTrack,
   currentTrack,
-  isPlaying,
   handleIsPlaying,
+  isPlaying,
 }) {
   const handlePlayPauseButton = () => {
     handleCurrentTrack(trackInfo);

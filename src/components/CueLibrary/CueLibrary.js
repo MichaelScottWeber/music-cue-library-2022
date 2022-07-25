@@ -4,17 +4,19 @@ import { getDatabase, ref, onValue } from 'firebase/database';
 import './CueLibrary.css';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 
-import Track from '../Track/Track';
+import TrackList from '../TrackList/TrackList';
+// import Track from '../Track/Track';
 import Waveform from '../Waveform/Waveform';
+import Filters from '../Filters/Filters';
 
 import { firebaseConfig } from '../../constants/firebaseConfig';
 
 function CueLibrary() {
   const [tracks, setTracks] = useState([]);
+  const [filteredTracks, setfilteredTracks] = useState([]);
   const [isLoading, setIsLoading] = useState();
   const [isError, setIsError] = useState();
   const [currentTrack, setCurrentTrack] = useState({
@@ -27,7 +29,9 @@ function CueLibrary() {
     duration: '',
   });
   const [isPlaying, setIsPlaying] = useState();
+  const [searchTerm, setSearchTerm] = useState('');
 
+  // Sets tracks from db
   useEffect(() => {
     const app = initializeApp(firebaseConfig);
     const db = getDatabase();
@@ -44,6 +48,18 @@ function CueLibrary() {
     });
   }, []);
 
+  // Filters tracks by search term
+  useEffect(() => {
+    setfilteredTracks(
+      tracks.filter((track) => {
+        return track.description
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+      })
+    );
+    // console.log(filteredTracks);
+  }, [searchTerm]);
+
   const handleCurrentTrack = (track) => {
     if (currentTrack.title !== track.title) {
       setCurrentTrack(track);
@@ -55,19 +71,9 @@ function CueLibrary() {
     setIsPlaying(bool);
   };
 
-  const trackList = tracks.map((track) => {
-    return (
-      <li key={track.title}>
-        <Track
-          trackInfo={track}
-          handleCurrentTrack={handleCurrentTrack}
-          currentTrack={currentTrack}
-          isPlaying={isPlaying}
-          handleIsPlaying={handleIsPlaying}
-        />
-      </li>
-    );
-  });
+  const handleSearchTerm = (term) => {
+    setSearchTerm(term);
+  };
 
   const waveform = () => {
     if (currentTrack.audio) {
@@ -83,20 +89,6 @@ function CueLibrary() {
     }
   };
 
-  // let waveform;
-  // if (currentTrack.audio) {
-  //   waveform = (
-  //     <Waveform
-  //       trackInfo={currentTrack}
-  //       isPlaying={isPlaying}
-  //       handleIsPlaying={handleIsPlaying}
-  //       handleWaveformReady={handleWaveformReady}
-  //     />
-  //   );
-  // } else {
-  //   waveform = <div></div>;
-  // }
-
   return (
     <main className='CueLibrary'>
       <Container>
@@ -107,7 +99,10 @@ function CueLibrary() {
             </Typography>
           </Grid>
           <Grid item xs={12} md={3}>
-            <div>Filter Section</div>
+            <Filters
+              handleSearchTerm={handleSearchTerm}
+              searchTerm={searchTerm}
+            />
           </Grid>
           <Grid item xs={12} md={9}>
             {isError && <div>Something went wrong...</div>}
@@ -119,7 +114,15 @@ function CueLibrary() {
                 </Typography>
               </div>
             ) : (
-              <Stack spacing={2}>{trackList}</Stack>
+              <TrackList
+                tracks={tracks}
+                filteredTracks={filteredTracks}
+                searchTerm={searchTerm}
+                currentTrack={currentTrack}
+                handleCurrentTrack={handleCurrentTrack}
+                isPlaying={isPlaying}
+                handleIsPlaying={handleIsPlaying}
+              />
             )}
           </Grid>
         </Grid>
