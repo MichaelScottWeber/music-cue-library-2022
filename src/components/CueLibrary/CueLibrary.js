@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import TrackList from '../TrackList/TrackList';
-// import Track from '../Track/Track';
 import Waveform from '../Waveform/Waveform';
 import Filters from '../Filters/Filters';
 
@@ -16,7 +15,6 @@ import { firebaseConfig } from '../../constants/firebaseConfig';
 
 function CueLibrary() {
   const [tracks, setTracks] = useState([]);
-  const [filteredTracks, setfilteredTracks] = useState([]);
   const [isLoading, setIsLoading] = useState();
   const [isError, setIsError] = useState();
   const [currentTrack, setCurrentTrack] = useState({
@@ -30,6 +28,7 @@ function CueLibrary() {
   });
   const [isPlaying, setIsPlaying] = useState();
   const [searchTerm, setSearchTerm] = useState('');
+  const [filteredTracks, setfilteredTracks] = useState([]);
 
   // Sets tracks from db
   useEffect(() => {
@@ -50,15 +49,60 @@ function CueLibrary() {
 
   // Filters tracks by search term
   useEffect(() => {
-    setfilteredTracks(
-      tracks.filter((track) => {
-        return track.description
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase());
-      })
-    );
-    // console.log(filteredTracks);
-  }, [searchTerm]);
+    setfilteredTracks(searchTracks(tracks));
+  }, [searchTerm, tracks]);
+
+  const searchTracks = (trackList) => {
+    // Empty arr
+    let arr = [];
+
+    // Loop through each item
+    trackList.forEach((track) => {
+      // If search term is in description, add to arr
+      if (track.description.toLowerCase().includes(searchTerm)) {
+        arr.push(track);
+      }
+
+      // If track is not already in arr, if seach term is in title, add to arr
+      if (!arr.includes(track)) {
+        if (track.title.toLowerCase().includes(searchTerm)) {
+          arr.push(track);
+        }
+      }
+
+      // If track is not already in arr, if search term is in genre list, add to arr
+      if (!arr.includes(track)) {
+        for (let i = 0; i < track.genre.length; i++) {
+          if (track.genre[i].includes(searchTerm)) {
+            arr.push(track);
+            return;
+          }
+        }
+      }
+
+      // If track is not already in arr, if search term is in mood list, add to arr
+      if (!arr.includes(track)) {
+        for (let i = 0; i < track.mood.length; i++) {
+          if (track.mood[i].includes(searchTerm)) {
+            arr.push(track);
+            return;
+          }
+        }
+      }
+
+      // If track is not already in arr, if search term is in instrumentation list, add to arr
+      if (!arr.includes(track)) {
+        for (let i = 0; i < track.instrumentation.length; i++) {
+          if (track.instrumentation[i].includes(searchTerm)) {
+            arr.push(track);
+            return;
+          }
+        }
+      }
+    });
+
+    return arr;
+  };
 
   const handleCurrentTrack = (track) => {
     if (currentTrack.title !== track.title) {
@@ -72,7 +116,7 @@ function CueLibrary() {
   };
 
   const handleSearchTerm = (term) => {
-    setSearchTerm(term);
+    setSearchTerm(term.toLowerCase());
   };
 
   const waveform = () => {
@@ -116,8 +160,8 @@ function CueLibrary() {
             ) : (
               <TrackList
                 tracks={tracks}
-                filteredTracks={filteredTracks}
                 searchTerm={searchTerm}
+                filteredTracks={filteredTracks}
                 currentTrack={currentTrack}
                 handleCurrentTrack={handleCurrentTrack}
                 isPlaying={isPlaying}
