@@ -7,15 +7,24 @@ import Typography from '@mui/material/Typography';
 function TrackList({
   tracks,
   searchTerm,
+  selectedMood,
   filteredTracks,
   handleCurrentTrack,
   currentTrack,
   isPlaying,
   handleIsPlaying,
 }) {
+  const trackList = () => {
+    if (searchTerm || selectedMood) {
+      return filteredTracks;
+    } else {
+      return tracks;
+    }
+  };
   return (
     <Stack marginBottom={2} spacing={2}>
-      {(searchTerm === '' ? tracks : filteredTracks).map((track) => {
+      {/* {(filteredTracks.length > 0 ? filteredTracks : tracks).map((track) => { */}
+      {trackList().map((track) => {
         return (
           <li key={track.title}>
             <Track
