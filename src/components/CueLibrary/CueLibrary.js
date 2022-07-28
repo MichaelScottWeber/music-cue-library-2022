@@ -29,6 +29,8 @@ function CueLibrary() {
   const [isPlaying, setIsPlaying] = useState();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedMood, setSelectedMood] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState('');
+  const [selectedInstrument, setSelectedInstrument] = useState('');
   const [filteredTracks, setfilteredTracks] = useState([]);
 
   // Sets tracks from db
@@ -79,13 +81,27 @@ function CueLibrary() {
   useEffect(() => {
     const searchTermList = searchTerm ? handleSearchTracks(tracks) : tracks;
     const selectedMoodList = selectedMood ? handleFilterByMood(tracks) : tracks;
+    const selectedGenreList = selectedGenre
+      ? handleFilterByGenre(tracks)
+      : tracks;
+    const selectedInstrumentList = selectedInstrument
+      ? handleFilterByInstrument(tracks)
+      : tracks;
 
     let arr = [];
 
     searchTermList.forEach((searchTermItem) => {
       selectedMoodList.forEach((selectedMoodItem) => {
         if (searchTermItem === selectedMoodItem) {
-          arr.push(selectedMoodItem);
+          selectedGenreList.forEach((selectedGenreItem) => {
+            if (selectedMoodItem === selectedGenreItem) {
+              selectedInstrumentList.forEach((selectedInstrumentItem) => {
+                if (selectedGenreItem === selectedInstrumentItem) {
+                  arr.push(selectedInstrumentItem);
+                }
+              });
+            }
+          });
         }
       });
     });
@@ -93,7 +109,13 @@ function CueLibrary() {
     const set = new Set(arr);
 
     setfilteredTracks([...set]);
-  }, [searchTerm, selectedMood]);
+  }, [
+    searchTerm,
+    selectedMood,
+    selectedGenre,
+    selectedInstrument,
+    filteredTracks,
+  ]);
 
   const handleSearchTracks = (trackList) => {
     // Empty arr
@@ -164,6 +186,40 @@ function CueLibrary() {
     return arr;
   };
 
+  const handleFilterByGenre = (trackList) => {
+    let arr = [];
+
+    trackList.forEach((track) => {
+      if (!arr.includes(track)) {
+        for (let i = 0; i < track.genre.length; i++) {
+          if (track.genre.includes(selectedGenre)) {
+            arr.push(track);
+            return;
+          }
+        }
+      }
+    });
+
+    return arr;
+  };
+
+  const handleFilterByInstrument = (trackList) => {
+    let arr = [];
+
+    trackList.forEach((track) => {
+      if (!arr.includes(track)) {
+        for (let i = 0; i < track.instrumentation.length; i++) {
+          if (track.instrumentation.includes(selectedInstrument)) {
+            arr.push(track);
+            return;
+          }
+        }
+      }
+    });
+
+    return arr;
+  };
+
   const handleCurrentTrack = (track) => {
     if (currentTrack.title !== track.title) {
       setCurrentTrack(track);
@@ -181,6 +237,14 @@ function CueLibrary() {
 
   const handleSelectedMood = (mood) => {
     setSelectedMood(mood);
+  };
+
+  const handleSelectedGenre = (genre) => {
+    setSelectedGenre(genre);
+  };
+
+  const handleSelectedInstrument = (instrument) => {
+    setSelectedInstrument(instrument);
   };
 
   // const waveform = () => {
@@ -213,6 +277,10 @@ function CueLibrary() {
               searchTerm={searchTerm}
               handleSelectedMood={handleSelectedMood}
               selectedMood={selectedMood}
+              handleSelectedGenre={handleSelectedGenre}
+              selectedGenre={selectedGenre}
+              handleSelectedInstrument={handleSelectedInstrument}
+              selectedInstrument={selectedInstrument}
             />
           </Grid>
           <Grid item xs={12} md={9}>
@@ -229,6 +297,8 @@ function CueLibrary() {
                 tracks={tracks}
                 searchTerm={searchTerm}
                 selectedMood={selectedMood}
+                selectedGenre={selectedGenre}
+                selectedInstrument={selectedInstrument}
                 filteredTracks={filteredTracks}
                 currentTrack={currentTrack}
                 handleCurrentTrack={handleCurrentTrack}

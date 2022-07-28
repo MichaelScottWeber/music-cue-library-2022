@@ -11,19 +11,33 @@ function Filters({
   searchTerm,
   handleSelectedMood,
   selectedMood,
+  handleSelectedGenre,
+  selectedGenre,
+  handleSelectedInstrument,
+  selectedInstrument,
 }) {
   const [moodOptions, setMoodOptions] = useState([]);
+  const [genreOptions, setGenreOptions] = useState([]);
+  const [instrumentOptions, setInstrumentOptions] = useState([]);
 
   useEffect(() => {
-    let arr = [];
+    let moodArr = [];
+    let genreArr = [];
+    let instrumentArr = [];
 
     tracks.forEach((track) => {
-      arr = [...arr, ...track.mood];
+      moodArr = [...moodArr, ...track.mood];
+      genreArr = [...genreArr, ...track.genre];
+      instrumentArr = [...instrumentArr, ...track.instrumentation];
     });
 
-    const set = new Set(arr);
+    const moodSet = new Set(moodArr);
+    const genreSet = new Set(genreArr);
+    const instrumentSet = new Set(instrumentArr);
 
-    setMoodOptions([...set].sort());
+    setMoodOptions([...moodSet].sort());
+    setGenreOptions([...genreSet].sort());
+    setInstrumentOptions([...instrumentSet].sort());
   }, [tracks]);
 
   return (
@@ -43,7 +57,7 @@ function Filters({
           labelId='mood-select-label'
           id='mood-select'
           value={selectedMood}
-          label='Age'
+          label='Mood'
           onChange={(e) => handleSelectedMood(e.target.value)}
         >
           <MenuItem value={''}>default (empty)</MenuItem>
@@ -51,6 +65,46 @@ function Filters({
             return (
               <MenuItem key={mood} value={mood}>
                 {mood}
+              </MenuItem>
+            );
+          })}
+        </Select>
+      </FormControl>
+
+      <FormControl fullWidth>
+        <InputLabel id='genre-select-label'>Genre</InputLabel>
+        <Select
+          labelId='genre-select-label'
+          id='genre-select'
+          value={selectedGenre}
+          label='Genre'
+          onChange={(e) => handleSelectedGenre(e.target.value)}
+        >
+          <MenuItem value={''}>default (empty)</MenuItem>
+          {genreOptions.map((genre) => {
+            return (
+              <MenuItem key={genre} value={genre}>
+                {genre}
+              </MenuItem>
+            );
+          })}
+        </Select>
+      </FormControl>
+
+      <FormControl fullWidth>
+        <InputLabel id='instrument-select-label'>Instrument</InputLabel>
+        <Select
+          labelId='instrument-select-label'
+          id='instrument-select'
+          value={selectedInstrument}
+          label='Instrument'
+          onChange={(e) => handleSelectedInstrument(e.target.value)}
+        >
+          <MenuItem value={''}>default (empty)</MenuItem>
+          {instrumentOptions.map((instrument) => {
+            return (
+              <MenuItem key={instrument} value={instrument}>
+                {instrument}
               </MenuItem>
             );
           })}

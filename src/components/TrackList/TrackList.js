@@ -8,6 +8,8 @@ function TrackList({
   tracks,
   searchTerm,
   selectedMood,
+  selectedGenre,
+  selectedInstrument,
   filteredTracks,
   handleCurrentTrack,
   currentTrack,
@@ -15,7 +17,7 @@ function TrackList({
   handleIsPlaying,
 }) {
   const trackList = () => {
-    if (searchTerm || selectedMood) {
+    if (searchTerm || selectedMood || selectedGenre || selectedInstrument) {
       return filteredTracks;
     } else {
       return tracks;
@@ -23,7 +25,6 @@ function TrackList({
   };
   return (
     <Stack marginBottom={2} spacing={2}>
-      {/* {(filteredTracks.length > 0 ? filteredTracks : tracks).map((track) => { */}
       {trackList().map((track) => {
         return (
           <li key={track.title}>
