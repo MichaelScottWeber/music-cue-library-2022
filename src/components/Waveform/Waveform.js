@@ -124,7 +124,7 @@ function Waveform({ trackInfo, isPlaying, handleIsPlaying }) {
                   component='span'
                   sx={{ marginRight: '8px' }}
                 >
-                  Loading Waveform...
+                  Loading...
                 </Typography>
                 <CircularProgress />
               </div>
