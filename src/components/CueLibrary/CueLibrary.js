@@ -148,7 +148,9 @@ function CueLibrary() {
     trackList.forEach((track) => {
       if (!arr.includes(track)) {
         for (let i = 0; i < track.mood.length; i++) {
-          if (track.mood.includes(selectedMood)) {
+          if (
+            track.mood.map((mood) => mood.toLowerCase()).includes(selectedMood)
+          ) {
             arr.push(track);
             return;
           }
@@ -165,7 +167,11 @@ function CueLibrary() {
     trackList.forEach((track) => {
       if (!arr.includes(track)) {
         for (let i = 0; i < track.genre.length; i++) {
-          if (track.genre.includes(selectedGenre)) {
+          if (
+            track.genre
+              .map((genre) => genre.toLowerCase())
+              .includes(selectedGenre)
+          ) {
             arr.push(track);
             return;
           }
@@ -182,7 +188,11 @@ function CueLibrary() {
     trackList.forEach((track) => {
       if (!arr.includes(track)) {
         for (let i = 0; i < track.instrumentation.length; i++) {
-          if (track.instrumentation.includes(selectedInstrument)) {
+          if (
+            track.instrumentation
+              .map((instrument) => instrument.toLowerCase())
+              .includes(selectedInstrument)
+          ) {
             arr.push(track);
             return;
           }
