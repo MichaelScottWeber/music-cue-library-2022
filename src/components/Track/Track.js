@@ -26,7 +26,7 @@ function Track({
   };
 
   return (
-    <Paper sx={{ borderRadius: '10px' }} elevation={2} className='Track'>
+    <Paper sx={{ borderRadius: '10px' }} elevation={0} className='Track'>
       <Box paddingX={1} paddingY={2}>
         <Accordion elevation={0}>
           <Stack

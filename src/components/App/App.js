@@ -10,7 +10,12 @@ import CueLibrary from '../CueLibrary/CueLibrary';
 
 const customTheme = createTheme({
   palette: {
-    // mode: 'dark',
+    primary: { main: '#14919B' },
+    secondary: { main: '#625D52' },
+    info: { main: '#186FAF' },
+    error: { main: '#A61B1B' },
+    warning: { main: '#C99A2E' },
+    success: { main: '#199473' },
   },
 });
 
@@ -20,7 +25,6 @@ function App() {
       <ThemeProvider theme={customTheme}>
         <BrowserRouter>
           <Navigation />
-          <hr />
 
           <Routes>
             <Route path={ROUTES.HOME} element={<Home />} />

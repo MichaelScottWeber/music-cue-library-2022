@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, onValue } from 'firebase/database';
-import './CueLibrary.css';
+import LazyHero from 'react-lazy-hero';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -49,33 +49,6 @@ function CueLibrary() {
       setIsLoading(false);
     });
   }, []);
-
-  // // Sets filteredtracks to tracks
-  // useEffect(() => {
-  //   setfilteredTracks([...tracks]);
-  // }, [tracks, selectedMood, searchTerm]);
-
-  // // Filters tracks by mood
-  // useEffect(() => {
-  //   // const list = filteredTracks.length < 0 ? filteredTracks : tracks;
-  //   // setfilteredTracks(handleFilterByMood(list));
-  //   // setfilteredTracks(handleSearchTracks(list));
-  //   if (selectedMood) {
-  //     setfilteredTracks([...handleFilterByMood(filteredTracks)]);
-  //   } else {
-  //     setfilteredTracks([...handleFilterByMood(tracks)]);
-  //   }
-  // }, [selectedMood]);
-
-  // // Filters tracks by search term
-  // useEffect(() => {
-  //   // const list = filteredTracks.length < 0 ? filteredTracks : tracks;
-  //   // setfilteredTracks(handleFilterByMood(list));
-  //   // setfilteredTracks(handleSearchTracks(list));
-  //   if (searchTerm) {
-  //     setfilteredTracks(handleSearchTracks(tracks));
-  //   }
-  // }, [searchTerm]);
 
   // Filter Tracks
   useEffect(() => {
@@ -247,29 +220,24 @@ function CueLibrary() {
     setSelectedInstrument(instrument);
   };
 
-  // const waveform = () => {
-  //   if (currentTrack.audio) {
-  //     return (
-  //       <Waveform
-  //         trackInfo={currentTrack}
-  //         isPlaying={isPlaying}
-  //         handleIsPlaying={handleIsPlaying}
-  //       />
-  //     );
-  //   } else {
-  //     return <div></div>;
-  //   }
-  // };
-
   return (
     <main className='CueLibrary'>
+      <LazyHero
+        color='#e0fcff'
+        opacity={0.2}
+        isCentered={false}
+        imageSrc='https://images.unsplash.com/photo-1483412033650-1015ddeb83d1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2946&q=80'
+        minHeight='25vh'
+      >
+        {/* <div className='h1-container'>
+          <Typography paddingX={3} paddingY={2} variant='h2' component='h1'>
+            Cue Library
+          </Typography>
+        </div> */}
+      </LazyHero>
+
       <Container sx={{ minHeight: '80vh' }}>
-        <Grid container spacing={5}>
-          <Grid item xs={12}>
-            <Typography variant='h1' component='h1'>
-              Cue Library
-            </Typography>
-          </Grid>
+        <Grid paddingY={3} container spacing={5}>
           <Grid item xs={12} md={3}>
             <Filters
               tracks={tracks}

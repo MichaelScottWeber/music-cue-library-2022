@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './Waveform.css';
 import WaveSurfer from 'wavesurfer.js';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';

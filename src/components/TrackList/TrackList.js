@@ -24,7 +24,7 @@ function TrackList({
     }
   };
   return (
-    <Stack marginBottom={2} spacing={2}>
+    <Stack spacing={2}>
       {trackList().map((track) => {
         return (
           <li key={track.title}>

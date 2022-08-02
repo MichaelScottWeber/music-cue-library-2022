@@ -1,0 +1,54 @@
+@import 'variables';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto';
+}
+
+.CueLibrary {
+  background-color: $neutral100;
+
+  li {
+    list-style: none;
+  }
+
+  .h1-container {
+    background-color: rgba(39, 36, 29, 0.6);
+    color: #faf9f7;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 24px;
+  }
+}
+
+.CueLibrary {
+  .tracks-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+  }
+}
+
+.Track {
+  button {
+    color: $neutral900;
+  }
+}
+
+.Waveform {
+  position: sticky;
+  bottom: 0px;
+  z-index: 20;
+
+  .waveform-loading {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    position: absolute;
+    bottom: 28px;
+  }
+}
