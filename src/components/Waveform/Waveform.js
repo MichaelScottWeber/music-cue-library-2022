@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import CircularProgress from '@mui/material/CircularProgress';
+import Alert from '@mui/material/Alert';
 
 const formWaveSurferOptions = (ref) => ({
   container: ref,
@@ -20,6 +21,7 @@ const formWaveSurferOptions = (ref) => ({
   barGap: null,
   responsive: true,
   height: 62,
+  ignoreSilentMode: true,
   normalize: true,
   minPxPerSec: 20,
   pixelRatio: 2,
@@ -29,6 +31,7 @@ const formWaveSurferOptions = (ref) => ({
 function Waveform({ trackInfo, isPlaying, handleIsPlaying }) {
   const [currentTime, setCurrentTime] = useState();
   const [waveformReady, setWaveformReady] = useState(false);
+  const [hideAlert, setHideAlert] = useState(false);
   const waveformRef = useRef(null);
   const wavesurfer = useRef(null);
   const url = trackInfo.audio;
@@ -82,8 +85,21 @@ function Waveform({ trackInfo, isPlaying, handleIsPlaying }) {
     }
   };
 
+  const handleAlert = (bool) => {
+    setHideAlert(bool);
+  };
+
   return (
     <Paper elevation={5} className='Waveform'>
+      <Alert
+        className={hideAlert ? 'mobile hide' : 'mobile'}
+        severity='info'
+        onClose={() => {
+          handleAlert(true);
+        }}
+      >
+        Turn mobile device off "silent" to listen
+      </Alert>
       <Box padding={2}>
         <Typography variant='h6' component='h2' gutterBottom>
           {trackInfo.title}
