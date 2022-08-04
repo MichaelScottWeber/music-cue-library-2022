@@ -24,6 +24,10 @@ function TrackList({
     setPage(1);
   }, [searchTerm, selectedMood, selectedGenre, selectedInstrument]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [page]);
+
   const handlePageChange = (event, value) => {
     setPage(value);
   };
