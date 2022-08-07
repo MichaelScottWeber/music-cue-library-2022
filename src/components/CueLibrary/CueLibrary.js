@@ -282,6 +282,9 @@ function CueLibrary() {
                 handleCurrentTrack={handleCurrentTrack}
                 isPlaying={isPlaying}
                 handleIsPlaying={handleIsPlaying}
+                handleSelectedMood={handleSelectedMood}
+                handleSelectedGenre={handleSelectedGenre}
+                handleSelectedInstrument={handleSelectedInstrument}
               />
             )}
           </Grid>

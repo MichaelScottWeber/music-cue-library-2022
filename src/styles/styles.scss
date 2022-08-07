@@ -41,6 +41,34 @@
   button {
     color: $neutral900;
   }
+
+  .chip-container {
+    display: flex;
+    align-items: center;
+
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+
+      li {
+        margin: 0.35rem;
+      }
+    }
+  }
+}
+
+.TrackList {
+  .top-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+  }
+
+  .pagination {
+    ul {
+      justify-content: end;
+    }
+  }
 }
 
 .Waveform {

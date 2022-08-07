@@ -2,10 +2,12 @@ import React from 'react';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
+import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
+import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
@@ -17,12 +19,20 @@ function Track({
   currentTrack,
   handleIsPlaying,
   isPlaying,
+  handleSelectedMood,
+  handleSelectedGenre,
+  handleSelectedInstrument,
 }) {
   const handlePlayPauseButton = () => {
     handleCurrentTrack(trackInfo);
     if (trackInfo.title === currentTrack.title) {
       handleIsPlaying(!isPlaying);
     }
+  };
+
+  const removeDuplicates = (arr) => {
+    const set = new Set(arr);
+    return [...set];
   };
 
   return (
@@ -72,18 +82,65 @@ function Track({
               <strong>Description: </strong>
               {trackInfo.description}
             </Typography>
-            <Typography variant='body2' component='p' gutterBottom>
-              <strong>Moods: </strong>
-              {trackInfo.mood.join(', ')}
-            </Typography>
-            <Typography variant='body2' component='p' gutterBottom>
-              <strong>Genre: </strong>
-              {trackInfo.genre.join(', ')}
-            </Typography>
-            <Typography variant='body2' component='p'>
-              <strong>Instrumentation: </strong>
-              {trackInfo.instrumentation.join(', ')}
-            </Typography>
+            <Divider sx={{ marginTop: '1rem', marginBottom: '1rem' }} />
+            <div className='chip-container'>
+              <Typography variant='body2' component='p' paddingRight={1}>
+                <strong>Moods: </strong>
+                {/* {trackInfo.mood.join(', ')} */}
+              </Typography>
+              <ul>
+                {removeDuplicates(trackInfo.mood).map((mood) => (
+                  <li key={mood}>
+                    <Chip
+                      label={mood}
+                      onClick={(e) => {
+                        handleSelectedMood(mood);
+                      }}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <Divider sx={{ marginTop: '1rem', marginBottom: '1rem' }} />
+            <div className='chip-container'>
+              <Typography variant='body2' component='p' paddingRight={1}>
+                <strong>Genre: </strong>
+                {/* {trackInfo.genre.join(', ')} */}
+              </Typography>
+              <ul>
+                {removeDuplicates(trackInfo.genre).map((genre) => (
+                  <li key={genre}>
+                    <Chip
+                      label={genre}
+                      onClick={(e) => {
+                        handleSelectedGenre(genre);
+                      }}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <Divider sx={{ marginTop: '1rem', marginBottom: '1rem' }} />
+            <div className='chip-container'>
+              <Typography variant='body2' component='p' paddingRight={1}>
+                <strong>Instrumentation: </strong>
+                {/* {trackInfo.instrumentation.join(', ')} */}
+              </Typography>
+              <ul>
+                {removeDuplicates(trackInfo.instrumentation).map(
+                  (instrument) => (
+                    <li key={instrument}>
+                      <Chip
+                        label={instrument}
+                        onClick={(e) => {
+                          handleSelectedInstrument(instrument);
+                        }}
+                      />
+                    </li>
+                  )
+                )}
+              </ul>
+            </div>
           </AccordionDetails>
         </Accordion>
       </Box>

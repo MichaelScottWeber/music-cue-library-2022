@@ -4,6 +4,10 @@ import Track from '../Track/Track';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 function TrackList({
   tracks,
@@ -16,6 +20,9 @@ function TrackList({
   currentTrack,
   isPlaying,
   handleIsPlaying,
+  handleSelectedMood,
+  handleSelectedGenre,
+  handleSelectedInstrument,
 }) {
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -32,6 +39,11 @@ function TrackList({
     setPage(value);
   };
 
+  const handleItemsPerPageChange = (value) => {
+    // console.log(typeof value);
+    setItemsPerPage(value);
+  };
+
   const trackList = () => {
     if (searchTerm || selectedMood || selectedGenre || selectedInstrument) {
       return filteredTracks;
@@ -40,7 +52,33 @@ function TrackList({
     }
   };
   return (
-    <Stack spacing={2}>
+    <Stack spacing={2} className='TrackList'>
+      <div className='top-pagination'>
+        <FormControl fullWidth sx={{ minWidth: 80, maxWidth: 120 }}>
+          <InputLabel id='items-per-page-label'>Items per page</InputLabel>
+          <Select
+            labelId='items-per-page-label'
+            id='items-per-page'
+            value={itemsPerPage}
+            label='Iems per page'
+            onChange={(e) => {
+              handleItemsPerPageChange(e.target.value);
+            }}
+            autoWidth
+          >
+            <MenuItem value={10}>10</MenuItem>
+            <MenuItem value={20}>20</MenuItem>
+            <MenuItem value={50}>50</MenuItem>
+            <MenuItem value={100}>100</MenuItem>
+          </Select>
+        </FormControl>
+        <Pagination
+          count={Math.ceil(trackList().length / itemsPerPage)}
+          page={page}
+          onChange={handlePageChange}
+          className='pagination'
+        />
+      </div>
       {trackList()
         .slice((page - 1) * itemsPerPage, page * itemsPerPage)
         .map((track) => {
@@ -52,6 +90,9 @@ function TrackList({
                 currentTrack={currentTrack}
                 handleIsPlaying={handleIsPlaying}
                 isPlaying={isPlaying}
+                handleSelectedMood={handleSelectedMood}
+                handleSelectedGenre={handleSelectedGenre}
+                handleSelectedInstrument={handleSelectedInstrument}
               />
             </li>
           );
@@ -67,14 +108,10 @@ function TrackList({
         count={Math.ceil(trackList().length / itemsPerPage)}
         page={page}
         onChange={handlePageChange}
+        className='pagination'
       />
     </Stack>
   );
 }
-
-// yourItemList.subarray(
-//   (pageNumber - 1) * numberOfItemsForPage,
-//   pageNumber * numberOfItemsForPage
-// );
 
 export default TrackList;
