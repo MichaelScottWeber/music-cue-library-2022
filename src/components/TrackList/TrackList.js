@@ -54,7 +54,12 @@ function TrackList({
   return (
     <Stack spacing={2} className='TrackList'>
       <div className='top-pagination'>
-        <FormControl fullWidth sx={{ minWidth: 80, maxWidth: 120 }}>
+        <FormControl
+          fullWidth
+          variant='standard'
+          size='small'
+          sx={{ minWidth: 80, maxWidth: 85 }}
+        >
           <InputLabel id='items-per-page-label'>Items per page</InputLabel>
           <Select
             labelId='items-per-page-label'
