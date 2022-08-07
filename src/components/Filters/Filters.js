@@ -51,7 +51,6 @@ function Filters({
       <Box paddingX={2} paddingY={2}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            {/* <Paper elevation={0}> */}
             <TextField
               fullWidth
               id='outlined-basic'
@@ -60,11 +59,17 @@ function Filters({
               onChange={(e) => handleSearchTerm(e.target.value)}
               value={searchTerm}
             />
-            {/* </Paper> */}
+            <Button
+              size='small'
+              variant='text'
+              color='secondary'
+              onClick={() => handleSearchTerm('')}
+            >
+              Clear Search Term
+            </Button>
           </Grid>
 
           <Grid item xs={4} md={12}>
-            {/* <Paper elevation={0}> */}
             <FormControl fullWidth>
               <InputLabel id='mood-select-label'>Mood</InputLabel>
               <Select
@@ -84,11 +89,17 @@ function Filters({
                 })}
               </Select>
             </FormControl>
-            {/* </Paper> */}
+            <Button
+              size='small'
+              variant='text'
+              color='secondary'
+              onClick={() => handleSelectedMood('')}
+            >
+              Clear Mood
+            </Button>
           </Grid>
 
           <Grid item xs={4} md={12}>
-            {/* <Paper elevation={0}> */}
             <FormControl fullWidth>
               <InputLabel id='genre-select-label'>Genre</InputLabel>
               <Select
@@ -108,11 +119,17 @@ function Filters({
                 })}
               </Select>
             </FormControl>
-            {/* </Paper> */}
+            <Button
+              size='small'
+              variant='text'
+              color='secondary'
+              onClick={() => handleSelectedGenre('')}
+            >
+              Clear Genre
+            </Button>
           </Grid>
 
           <Grid item xs={4} md={12}>
-            {/* <Paper elevation={0}> */}
             <FormControl fullWidth>
               <InputLabel id='instrument-select-label'>Instrument</InputLabel>
               <Select
@@ -132,7 +149,14 @@ function Filters({
                 })}
               </Select>
             </FormControl>
-            {/* </Paper> */}
+            <Button
+              size='small'
+              variant='text'
+              color='secondary'
+              onClick={() => handleSelectedInstrument('')}
+            >
+              Clear Instrument
+            </Button>
           </Grid>
 
           <Grid item xs={12}>
@@ -145,7 +169,7 @@ function Filters({
                 handleSelectedInstrument('');
               }}
             >
-              Clear Filters
+              Clear All Filters
             </Button>
           </Grid>
         </Grid>
