@@ -90,11 +90,11 @@ function Track({
               </Typography>
               <ul>
                 {removeDuplicates(trackInfo.mood).map((mood) => (
-                  <li key={mood}>
+                  <li key={mood.toLowerCase()}>
                     <Chip
-                      label={mood}
+                      label={mood.toLowerCase()}
                       onClick={(e) => {
-                        handleSelectedMood(mood);
+                        handleSelectedMood(mood.toLowerCase());
                       }}
                     />
                   </li>
@@ -109,11 +109,11 @@ function Track({
               </Typography>
               <ul>
                 {removeDuplicates(trackInfo.genre).map((genre) => (
-                  <li key={genre}>
+                  <li key={genre.toLowerCase()}>
                     <Chip
-                      label={genre}
+                      label={genre.toLowerCase()}
                       onClick={(e) => {
-                        handleSelectedGenre(genre);
+                        handleSelectedGenre(genre.toLowerCase());
                       }}
                     />
                   </li>
@@ -129,11 +129,11 @@ function Track({
               <ul>
                 {removeDuplicates(trackInfo.instrumentation).map(
                   (instrument) => (
-                    <li key={instrument}>
+                    <li key={instrument.toLowerCase()}>
                       <Chip
-                        label={instrument}
+                        label={instrument.toLowerCase()}
                         onClick={(e) => {
-                          handleSelectedInstrument(instrument);
+                          handleSelectedInstrument(instrument.toLowerCase());
                         }}
                       />
                     </li>
