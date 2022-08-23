@@ -80,6 +80,10 @@ function Track({
           <AccordionDetails>
             <Typography variant='body2' component='p' gutterBottom>
               <strong>Description: </strong>
+              {/* {trackInfo.description} */}
+            </Typography>
+            <Typography variant='body2' component='p' gutterBottom>
+              {/* <strong>Description: </strong> */}
               {trackInfo.description}
             </Typography>
             <Divider sx={{ marginTop: '1rem', marginBottom: '1rem' }} />
