@@ -1,70 +1,86 @@
-# Getting Started with Create React App
+# MusicCueLibrary
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A searchable music player web app to showcase my music compositions.
 
-## Available Scripts
+## Table of contents
 
-In the project directory, you can run:
+- [Overview](#overview)
+  - [The challenge](#the-challenge)
+  - [Screenshot](#screenshot)
+  - [Links](#links)
+- [My process](#my-process)
+  - [Built with](#built-with)
+  - [What I learned](#what-i-learned)
+  - [Continued development](#continued-development)
+  <!-- - [Useful resources](#useful-resources) -->
+- [Author](#author)
+<!-- - [Acknowledgments](#acknowledgments) -->
 
-### `npm start`
+## Overview
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### The challenge
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Users should be able to:
 
-### `npm test`
+- Browse through the paginated list of songs, and select how many songs are displayed at a time
+- Click on a song's "Play" button to bring up a visual waveform of the song along the bottom of the screen and play the audio
+- View each song's expandable details section, which shows the song's description, moods, genres, and instrumentation
+- Filter the song list by typing in a search bar, and also via drop-down selects for mood, genre and instrumentation. Users can also click on a song's mood, genre, or insturment within it's details section to update the filtered list
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Screenshots
 
-### `npm run build`
+![](./screenshots/screenshot.jpg)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Links
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Live Site URL: [https://www.michaelwebermusic.com/library](https://www.michaelwebermusic.com/library)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## My process
 
-### `npm run eject`
+### Built with
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Mobile-first workflow
+- Semantic HTML5 markup
+- SASS (SCSS)
+- useState and useEfect hooks
+- [React](https://reactjs.org/) - JS library
+- [Wavesurfer](https://wavesurfer-js.org/) - Audio waveform visualization library
+- [Firebase](https://firebase.google.com/) - Realtime database
+- [Material UI](https://mui.com/) - UI library
+- [React Router](https://reactrouter.com/) - URL routing library
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### What I learned
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+#### Reading from a Firebase Realtime database
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The [Firebase docs](https://firebase.google.com/docs/database) were very helpful in learning how to connect my app to the realtime database.
 
-## Learn More
+#### Implementing the Wavesurfer.js library with React hooks
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The documentation for Wavesurfer.js is a bit outdated, and it does not include any implementation details for using the library with React. I found [this article](https://dev.to/jamland/audio-player-with-wavesurfer-js-react-1g3b) very helpful.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Continued development
 
-### Code Splitting
+Ways to improve this app include
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Adding an authenticated admin dashboard to upload new songs to the database
+- Creating curated playlists, each with their own URL route
+- Currently, audio does not play on mobile devices if the device is set to silent. A fix is described [here](https://github.com/katspaugh/wavesurfer.js/issues/1864), needs to be implemented
 
-### Analyzing the Bundle Size
+<!-- ### Useful resources
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
+- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept.
 
-### Making a Progressive Web App
+**Note: Delete this note and replace the list above with resources that helped you during the challenge. These could come in handy for anyone viewing your solution or for yourself when you look back on this project in the future.** -->
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Author
 
-### Advanced Configuration
+- [Michael Weber](https://michaelweber.dev/)
+- [LinkedIn](https://www.linkedin.com/in/michaelscottweber/)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+<!-- ## Acknowledgments
 
-### Deployment
+This is where you can give a hat tip to anyone who helped you out on this project. Perhaps you worked in a team or got some inspiration from someone else's solution. This is the perfect place to give them some credit.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Note: Delete this note and edit this section's content as necessary. If you completed this challenge by yourself, feel free to delete this section entirely.** -->
